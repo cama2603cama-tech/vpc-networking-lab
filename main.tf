@@ -57,6 +57,13 @@ resource "google_compute_firewall" "allow_all_ssh_icmp" {
   name     = "${each.key}-allow-ssh-icmp"
   network  = each.key
 
+  # Forzamos explícitamente a que espere a que todas las redes estén creadas
+  depends_on = [
+    google_compute_network.mynetwork,
+    google_compute_network.management,
+    google_compute_network.privatenet
+  ]
+
   allow {
     protocol = "icmp"
   }
